@@ -3,8 +3,6 @@ services:
     image: postgis/postgis:16-3.4
     container_name: inpost-neviim-db
     restart: unless-stopped
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_DB: neviim
       POSTGRES_USER: neviim
