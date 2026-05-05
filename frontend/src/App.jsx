@@ -402,9 +402,9 @@ export default function App() {
 
     return {
       fillColor: hasInPost ? '#FFD100' : 'transparent',
-      weight: 1,
-      opacity: 1,
-      color: 'rgba(255,255,255,0.2)',
+      weight: 0,
+      opacity: 0,
+      color: 'transparent',
       fillOpacity: hasInPost ? 0.1 : 0,
       interactive: false
     };
