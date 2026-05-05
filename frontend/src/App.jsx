@@ -695,9 +695,10 @@ export default function App() {
             <CircleMarker
               key={`vp-${p.name}`}
               center={[p.latitude, p.longitude]}
-              radius={6}
+              radius={10}
               className={explodingPoints.has(p.id || `${p.latitude}-${p.longitude}`) ? 'exploding' : ''}
-              pathOptions={{ fillColor: '#FFD100', fillOpacity: 0.9, color: '#FFFFFF', weight: 1 }}
+              pathOptions={{ fillColor: '#FFD100', fillOpacity: 0.9, color: '#FFFFFF', weight: 1.5 }}
+              bubblingMouseEvents={true}
             >
               <Popup>
                 <LockerPopup point={p} onDestroy={handleDestroy} />
@@ -739,14 +740,15 @@ export default function App() {
                 )}
                 <CircleMarker
                   center={[c.latitude, c.longitude]}
-                  radius={6}
+                  radius={10}
                   className={explodingPoints.has(pid) ? 'shaking-target' : ''}
                   pathOptions={{
                     fillColor: firePoints.has(pid) ? 'transparent' : '#FF5252',
                     fillOpacity: 0.9,
                     color: '#FFFFFF',
-                    weight: 1
+                    weight: 1.5
                   }}
+                  bubblingMouseEvents={true}
                 >
                   <Popup>
                     <LockerPopup point={c} onDestroy={handleDestroy} />
@@ -770,7 +772,7 @@ export default function App() {
               />
               <CircleMarker
                 center={[c.latitude, c.longitude]}
-                radius={8}
+                radius={10}
                 pathOptions={{
                   fillColor: getCandidateColor(c.totalScore),
                   fillOpacity: 1,

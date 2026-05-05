@@ -15,7 +15,7 @@ InPost Neviim is an automated parcel locker distribution platform designed for o
 
 ![Project Screenshot](git/image.png)
 
-## Overview
+## Key Features
 - **3-Stage Selection Logic**: The system first looks for high-traffic commercial POIs (supermarkets, malls). If none are found, it falls back to public/social infrastructure. In low-density "Rural Areas", it automatically calculates the geometric center (centroid) of existing residential buildings to find the heart of the community.
 - **Competitor Penalty Scoring**: A sophisticated scoring algorithm that penalizes candidate sites based on their proximity to competitors (DHL, DPD, etc.), allowing users to adjust the "Competitor Weight" in real-time.
 - **Asynchronous Pipeline**: The backend uses an asynchronous worker pattern to handle heavy Overpass API requests without blocking the main thread, providing partial updates to the client.
