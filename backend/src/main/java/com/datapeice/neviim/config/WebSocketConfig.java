@@ -20,6 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
                 .setAllowedOriginPatterns("http://localhost:5173", "http://localhost:3000", "https://neviim.datapeice.me")
+                // później dodam tu odczyt c .env a tera niech bedzie przez hardcore
                 .withSockJS();
     }
 }

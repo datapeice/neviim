@@ -149,7 +149,7 @@ public class InPostApiService {
         if (type.contains("pop")) return 15;
         return 30;
     }
-
+    // hiiiii :0
     public long getPointCount() {
         return pointRepository.count();
     }

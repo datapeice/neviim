@@ -22,10 +22,6 @@ public class GeoUtils {
         return EARTH_RADIUS_KM * c;
     }
 
-    public static double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
-        return haversineKm(lat1, lng1, lat2, lng2);
-    }
-
     public static double[] boundingBox(double lat, double lng, double radiusKm) {
         double latDelta = radiusKm / 111.0;
         double lngDelta = radiusKm / (111.0 * Math.cos(Math.toRadians(lat)));

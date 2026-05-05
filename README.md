@@ -9,11 +9,13 @@
 
 InPost Neviim is an automated parcel locker distribution platform designed for optimizing network expansion. It analyzes real-time geographic data to identify high-potential sites while accounting for competitor proximity and local infrastructure density. The system solves the problem of manual site selection by providing an algorithmic, data-driven recommendation engine.
 
-## Demo & Description
+## Live Demo
 
-My solution can be used by logistic department managers to optimize parcel locker distribution network. It helps to identify high-potential sites while accounting for competitor proximity and local infrastructure density. The system solves the problem of manual site selection by providing an algorithmic, data-driven recommendation engine.
+**🚀 [neviim.datapeice.me](https://neviim.datapeice.me/)**
 
-### Key Technical Approaches:
+![Project Screenshot](git/image.png)
+
+## Overview
 - **3-Stage Selection Logic**: The system first looks for high-traffic commercial POIs (supermarkets, malls). If none are found, it falls back to public/social infrastructure. In low-density "Rural Areas", it automatically calculates the geometric center (centroid) of existing residential buildings to find the heart of the community.
 - **Competitor Penalty Scoring**: A sophisticated scoring algorithm that penalizes candidate sites based on their proximity to competitors (DHL, DPD, etc.), allowing users to adjust the "Competitor Weight" in real-time.
 - **Asynchronous Pipeline**: The backend uses an asynchronous worker pattern to handle heavy Overpass API requests without blocking the main thread, providing partial updates to the client.
@@ -35,7 +37,7 @@ My solution can be used by logistic department managers to optimize parcel locke
 
 1. **Clone the repository**:
 ```bash
-git https://github.com/datapeice/neviim.git
+git clone https://github.com/datapeice/neviim.git
 cd neviim
 ```
 

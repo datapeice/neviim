@@ -21,17 +21,14 @@ public class SiteSelectionService {
 
     private final OverpassPOIService overpassPOIService;
     private final PointRepository pointRepository;
-    private final GooglePlacesService googlePlacesService;
     private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
     public SiteSelectionService(PointRepository pointRepository, 
                                 OverpassPOIService overpassPOIService,
-                                GooglePlacesService googlePlacesService,
                                 SimpMessagingTemplate messagingTemplate) {
         this.pointRepository = pointRepository;
         this.overpassPOIService = overpassPOIService;
-        this.googlePlacesService = googlePlacesService;
         this.messagingTemplate = messagingTemplate;
     }
 
