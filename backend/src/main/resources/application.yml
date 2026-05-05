@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: inpost-neviim
+
+  threads:
+    virtual:
+      enabled: true
+
+  datasource:
+    url: jdbc:h2:file:./data/neviim-db;AUTO_SERVER=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+
+  web:
+    cors:
+      allowed-origins: "http://localhost:5173,http://localhost:3000"
+
+inpost:
+  api:
+    base-url: https://api-global-points.easypack24.net
+    points-url: ${inpost.api.base-url}/v1/points
+    page-size: 1000
+    max-pages: 300

@@ -1,0 +1,49 @@
+# --- Java / Gradle (Backend) ---
+**/backend/.gradle/
+**/backend/build/
+**/backend/out/
+**/backend/bin/
+**/backend/data/
+**/backend/*.db
+**/backend/*.db.trace.db
+**/backend/hs_err_pid*
+
+# --- Node / Vite (Frontend) ---
+**/frontend/node_modules/
+**/frontend/dist/
+**/frontend/dist-ssr/
+**/frontend/*.local
+**/frontend/npm-debug.log*
+
+# --- Logs ---
+*.log
+**/logs/
+
+# --- IDEs / Editors ---
+.idea/
+.vscode/
+*.iws
+*.iml
+*.ipr
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans/
+.sts4-cache/
+
+# --- OS / Misc ---
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+
+# --- Docker ---
+.docker-compose.db.data/

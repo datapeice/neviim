@@ -1,0 +1,18 @@
+# Production profile: PostgreSQL + PostGIS
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/oracle
+    driver-class-name: org.postgresql.Driver
+    username: oracle
+    password: oracle
+
+  h2:
+    console:
+      enabled: false
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.spatial.dialect.postgis.PostgisPG10Dialect
