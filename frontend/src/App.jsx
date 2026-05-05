@@ -355,6 +355,15 @@ export default function App() {
   }
 
   const handleRectangleDrawn = useCallback(async (bbox) => {
+    const latDiff = bbox.maxLat - bbox.minLat;
+    const lngDiff = bbox.maxLng - bbox.minLng;
+    
+    if (latDiff > 0.1 || lngDiff > 0.15) {
+      showToast('Area too large! Please select a smaller zone (max ~10km).');
+      setDrawingMode(true);
+      return;
+    }
+
     setSiteSelectionBbox(bbox);
     setSiteSelectionLoading(true);
     setSiteSelectionResult(null);
@@ -412,6 +421,47 @@ export default function App() {
             <h1>InPost Neviim</h1>
           </div>
           <div className="logo-subtitle">The Parcel Prophet (Auto-Distributor)</div>
+        </div>
+
+        <div className="sidebar-top-actions">
+          <button
+            className={`btn ${drawingMode ? 'btn-drawing' : 'btn-primary'}`}
+            onClick={() => {
+              setDrawingMode(!drawingMode);
+              if (!drawingMode) {
+                setSiteSelectionResult(null);
+                setSiteSelectionBbox(null);
+              }
+            }}
+            disabled={siteSelectionLoading}
+            id="btn-draw"
+          >
+            {drawingMode ? 'Click & drag on map to select area' : 'Select Area on Map'}
+          </button>
+
+          <button 
+            className="btn btn-secondary"
+            onClick={handleIngest}
+            disabled={loading}
+            id="btn-ingest"
+          >
+            {loading ? 'Fetching Data...' : 'Fetch Data ~10min'}
+          </button>
+
+          {drawingMode && (
+            <p className="site-selection-hint">
+              Click and drag on the map to draw a rectangle.
+            </p>
+          )}
+
+          {siteSelectionLoading && (
+            <div className="analysis-progress-container" style={{ margin: 0, marginTop: '8px' }}>
+              <div className="progress-bar-bg">
+                <div className="progress-bar-fill" style={{ width: `${analysisProgress}%` }}></div>
+              </div>
+              <span className="progress-text">Analyzing: {analysisProgress}%</span>
+            </div>
+          )}
         </div>
 
         <div className="sidebar-scroll-area">
@@ -541,62 +591,11 @@ export default function App() {
                 <div className="ssr-empty">No commercial POIs or suitable buildings found in this area. Try a larger zone.</div>
               )}
 
-              <button
-                className="btn btn-primary"
-                onClick={() => {
-                  setSiteSelectionResult(null);
-                  setSiteSelectionBbox(null);
-                  setDrawingMode(true);
-                }}
-                style={{ marginTop: '12px' }}
-              >
-                Analyze Another Area
-              </button>
             </div>
           )}
         </div>
         </div>
 
-        <div className="sidebar-footer">
-          <button
-            className={`btn ${drawingMode ? 'btn-drawing' : 'btn-primary'}`}
-            onClick={() => {
-              setDrawingMode(!drawingMode);
-              if (!drawingMode) {
-                setSiteSelectionResult(null);
-                setSiteSelectionBbox(null);
-              }
-            }}
-            disabled={siteSelectionLoading}
-            id="btn-draw"
-          >
-            {drawingMode ? 'Click & drag on map to select area' : 'Select Area on Map'}
-          </button>
-
-          <button 
-            className="btn btn-secondary"
-            onClick={handleIngest}
-            disabled={loading}
-            id="btn-ingest"
-          >
-            {loading ? 'Fetching Data...' : 'Fetch Data ~10min'}
-          </button>
-
-          {drawingMode && (
-            <p className="site-selection-hint">
-              Click and drag on the map to draw a rectangle.
-            </p>
-          )}
-
-          {siteSelectionLoading && (
-            <div className="analysis-progress-container" style={{ margin: 0, marginTop: '8px' }}>
-              <div className="progress-bar-bg">
-                <div className="progress-bar-fill" style={{ width: `${analysisProgress}%` }}></div>
-              </div>
-              <span className="progress-text">Analyzing: {analysisProgress}%</span>
-            </div>
-          )}
-        </div>
       </aside>
 
       <main className="map-container">
