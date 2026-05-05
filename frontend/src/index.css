@@ -151,6 +151,9 @@ body {
   background: var(--bg-sidebar);
   border-top: 1px solid var(--border);
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .settings-overlay {
@@ -421,14 +424,20 @@ select.control-select:focus {
 }
 
 .btn-secondary {
-  background: var(--bg-card);
-  color: var(--text-primary);
-  border: 1px solid var(--border);
+  background: #374151;
+  color: white;
+  border: 1px solid #4b5563;
 }
 
 .btn-secondary:hover {
+  background: #4b5563;
   border-color: var(--accent-yellow);
-  background: var(--bg-card-hover);
+}
+
+.btn-secondary.active {
+  background: var(--accent-yellow);
+  color: #0a0e17;
+  border-color: var(--accent-yellow);
 }
 
 .progress-container {
