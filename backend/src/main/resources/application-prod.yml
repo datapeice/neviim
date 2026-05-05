@@ -1,15 +1,12 @@
-# Production profile: PostgreSQL + PostGIS
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/oracle
+    url: jdbc:postgresql://localhost:5432/neviim
     driver-class-name: org.postgresql.Driver
-    username: oracle
-    password: oracle
-
+    username: neviim
+    password: neviim
   h2:
     console:
       enabled: false
-
   jpa:
     hibernate:
       ddl-auto: update
