@@ -172,7 +172,6 @@ public class SiteSelectionService {
                         .city(p.getCity())
                         .street(p.getStreet())
                         .locationDescription(p.getLocationDescription())
-                        .estimatedCapacity(p.getEstimatedCapacity())
                         .build())
                 .collect(Collectors.toList());
 
