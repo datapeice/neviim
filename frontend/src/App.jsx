@@ -357,7 +357,7 @@ export default function App() {
   const handleRectangleDrawn = useCallback(async (bbox) => {
     const latDiff = bbox.maxLat - bbox.minLat;
     const lngDiff = bbox.maxLng - bbox.minLng;
-    
+
     if (latDiff > 0.1 || lngDiff > 0.15) {
       showToast('Area too large! Please select a smaller zone (max ~10km).');
       setDrawingMode(true);
@@ -439,7 +439,7 @@ export default function App() {
             {drawingMode ? 'Click & drag on map to select area' : 'Select Area on Map'}
           </button>
 
-          <button 
+          <button
             className="btn btn-secondary"
             onClick={handleIngest}
             disabled={loading}
@@ -466,134 +466,134 @@ export default function App() {
 
         <div className="sidebar-scroll-area">
 
-        <div className="stats-grid">
-          <div className="stat-card yellow">
-            <div className="stat-label">Network Size</div>
-            <div className="stat-value yellow">{formatNumber(totalPoints)}</div>
-          </div>
-          <div className="stat-card blue">
-            <div className="stat-label">Countries</div>
-            <div className="stat-value blue">{countries}</div>
-          </div>
-          <div className="stat-card green">
-            <div className="stat-label">POIs Found</div>
-            <div className="stat-value green">
-              {siteSelectionResult ? formatNumber(siteSelectionResult.totalCandidates) : '—'}
+          <div className="stats-grid">
+            <div className="stat-card yellow">
+              <div className="stat-label">Network Size</div>
+              <div className="stat-value yellow">{formatNumber(totalPoints)}</div>
             </div>
-          </div>
-          <div className="stat-card red">
-            <div className="stat-label">Existing Lockers</div>
-            <div className="stat-value red">
-              {siteSelectionResult ? siteSelectionResult.existingLockers : '—'}
+            <div className="stat-card blue">
+              <div className="stat-label">Countries</div>
+              <div className="stat-value blue">{countries}</div>
             </div>
-          </div>
-        </div>
-
-
-        <div className="sidebar-section">
-          <div className="section-title"><span className="dot" />Site Selection Settings</div>
-
-          <div className="control-group">
-            <label className="control-label"><span>Greenfield Bonus</span><span>{gfBonus}</span></label>
-            <p className="setting-description">Extra points for territory without existing InPost lockers.</p>
-            <input type="range" className="slider" min="0" max="100" step="5" value={gfBonus} onChange={(e) => setGfBonus(parseInt(e.target.value))} />
-          </div>
-
-          <div className="control-group">
-            <label className="control-label"><span>24/7 Access Bonus</span><span>{accessBonus}</span></label>
-            <p className="setting-description">Priority for 24/7 locations (fuel stations, kiosks).</p>
-            <input type="range" className="slider" min="0" max="100" step="5" value={accessBonus} onChange={(e) => setAccessBonus(parseInt(e.target.value))} />
-          </div>
-
-          <div className="control-group">
-            <label className="control-label"><span>Greenfield Radius</span><span>{gfRadius} km</span></label>
-            <p className="setting-description">Radius for calculating locker-free territory score.</p>
-            <input type="range" className="slider" min="1" max="20" step="1" value={gfRadius} onChange={(e) => setGfRadius(parseFloat(e.target.value))} />
-          </div>
-
-          <div className="control-group">
-            <div className="control-label">
-              <span>Competitor Weight</span>
-              <span className="setting-value">{compWeight === 0 ? 'Low' : compWeight === 1 ? 'High' : 'Normal'}</span>
-            </div>
-            <input
-              type="range"
-              className="slider"
-              min="0"
-              max="1"
-              step="0.5"
-              value={compWeight}
-              onChange={(e) => setCompWeight(parseFloat(e.target.value))}
-            />
-            <p className="setting-description">How strongly to penalize proximity to DHL/DPD machines.</p>
-          </div>
-        </div>
-
-        <div className="sidebar-section">
-
-          {siteSelectionResult && (
-            <div className="site-selection-results">
-              <div className="ssr-header">
-                <div className="ssr-area-name">{siteSelectionResult.areaName}</div>
-                {siteSelectionResult.greenfield && (
-                  <div className="greenfield-badge">Greenfield</div>
-                )}
+            <div className="stat-card green">
+              <div className="stat-label">POIs Found</div>
+              <div className="stat-value green">
+                {siteSelectionResult ? formatNumber(siteSelectionResult.totalCandidates) : '—'}
               </div>
+            </div>
+            <div className="stat-card red">
+              <div className="stat-label">Existing Lockers</div>
+              <div className="stat-value red">
+                {siteSelectionResult ? siteSelectionResult.existingLockers : '—'}
+              </div>
+            </div>
+          </div>
 
-              <div className="ssr-stats">
-                <div className="ssr-stat">
-                  <span className="ssr-stat-value">{siteSelectionResult.totalCandidates}</span>
-                  <span className="ssr-stat-label">POIs Found</span>
+
+          <div className="sidebar-section">
+            <div className="section-title"><span className="dot" />Site Selection Settings</div>
+
+            <div className="control-group">
+              <label className="control-label"><span>Greenfield Bonus</span><span>{gfBonus}</span></label>
+              <p className="setting-description">Extra points for territory without existing InPost lockers.</p>
+              <input type="range" className="slider" min="0" max="100" step="5" value={gfBonus} onChange={(e) => setGfBonus(parseInt(e.target.value))} />
+            </div>
+
+            <div className="control-group">
+              <label className="control-label"><span>24/7 Access Bonus</span><span>{accessBonus}</span></label>
+              <p className="setting-description">Priority for 24/7 locations (fuel stations, kiosks).</p>
+              <input type="range" className="slider" min="0" max="100" step="5" value={accessBonus} onChange={(e) => setAccessBonus(parseInt(e.target.value))} />
+            </div>
+
+            <div className="control-group">
+              <label className="control-label"><span>Greenfield Radius</span><span>{gfRadius} km</span></label>
+              <p className="setting-description">Radius for calculating locker-free territory score.</p>
+              <input type="range" className="slider" min="1" max="20" step="1" value={gfRadius} onChange={(e) => setGfRadius(parseFloat(e.target.value))} />
+            </div>
+
+            <div className="control-group">
+              <div className="control-label">
+                <span>Competitor Weight</span>
+                <span className="setting-value">{compWeight === 0 ? 'Low' : compWeight === 1 ? 'High' : 'Normal'}</span>
+              </div>
+              <input
+                type="range"
+                className="slider"
+                min="0"
+                max="1"
+                step="0.5"
+                value={compWeight}
+                onChange={(e) => setCompWeight(parseFloat(e.target.value))}
+              />
+              <p className="setting-description">How strongly to penalize proximity to DHL/DPD machines.</p>
+            </div>
+          </div>
+
+          <div className="sidebar-section">
+
+            {siteSelectionResult && (
+              <div className="site-selection-results">
+                <div className="ssr-header">
+                  <div className="ssr-area-name">{siteSelectionResult.areaName}</div>
+                  {siteSelectionResult.greenfield && (
+                    <div className="greenfield-badge">Greenfield</div>
+                  )}
                 </div>
-                <div className="ssr-stat">
-                  <span className="ssr-stat-value">{siteSelectionResult.existingLockers}</span>
-                  <span className="ssr-stat-label">Existing Lockers</span>
-                </div>
-                {siteSelectionResult.ruralMode && (
-                  <div className="ssr-stat" style={{ borderLeft: '1px solid var(--border)', paddingLeft: '12px' }}>
-                    <span className="ssr-stat-value" style={{ color: '#448AFF', fontSize: '11px' }}>
-                      {siteSelectionResult.optimalLat ? `${siteSelectionResult.optimalLat.toFixed(5)}, ${siteSelectionResult.optimalLng.toFixed(5)}` : 'Calculating...'}
-                    </span>
-                    <span className="ssr-stat-label">Geometric Center (Rural)</span>
+
+                <div className="ssr-stats">
+                  <div className="ssr-stat">
+                    <span className="ssr-stat-value">{siteSelectionResult.totalCandidates}</span>
+                    <span className="ssr-stat-label">POIs Found</span>
                   </div>
+                  <div className="ssr-stat">
+                    <span className="ssr-stat-value">{siteSelectionResult.existingLockers}</span>
+                    <span className="ssr-stat-label">Existing Lockers</span>
+                  </div>
+                  {siteSelectionResult.ruralMode && (
+                    <div className="ssr-stat" style={{ borderLeft: '1px solid var(--border)', paddingLeft: '12px' }}>
+                      <span className="ssr-stat-value" style={{ color: '#448AFF', fontSize: '11px' }}>
+                        {siteSelectionResult.optimalLat ? `${siteSelectionResult.optimalLat.toFixed(5)}, ${siteSelectionResult.optimalLng.toFixed(5)}` : 'Calculating...'}
+                      </span>
+                      <span className="ssr-stat-label">Geometric Center (Rural)</span>
+                    </div>
+                  )}
+                </div>
+
+                {siteSelectionResult?.candidates?.length > 0 && (
+                  <>
+                    <div className="ssr-candidates-title">Top Candidates</div>
+                    <ul className="candidate-list">
+                      {siteSelectionResult.candidates.map((c, i) => (
+                        <li
+                          key={i}
+                          className="candidate-item"
+                          onClick={() => { setMapCenter([c.latitude, c.longitude]); setMapZoom(17); }}
+                        >
+                          <div className="candidate-rank" style={{ background: getCandidateColor(c.totalScore) }}>
+                            {c.rank}
+                          </div>
+                          <div className="candidate-info">
+                            <div className="candidate-name">{c.name || 'Unknown'}</div>
+                            <div className="candidate-type">{c.brand ? `${c.brand} · ` : ''}{c.type}</div>
+                            <div className="candidate-reason">{c.reason}</div>
+                          </div>
+                          <div className="candidate-score">
+                            <div className="score-value">{c.totalScore}</div>
+                            <div className="score-label" style={{ color: getCandidateColor(c.totalScore) }}>{getScoreLabel(c.totalScore)}</div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
                 )}
+
+                {(!siteSelectionResult?.candidates || siteSelectionResult.candidates.length === 0) && (
+                  <div className="ssr-empty">No commercial POIs or suitable buildings found in this area. Try a larger zone.</div>
+                )}
+
               </div>
-
-              {siteSelectionResult?.candidates?.length > 0 && (
-                <>
-                  <div className="ssr-candidates-title">Top Candidates</div>
-                  <ul className="candidate-list">
-                    {siteSelectionResult.candidates.map((c, i) => (
-                      <li
-                        key={i}
-                        className="candidate-item"
-                        onClick={() => { setMapCenter([c.latitude, c.longitude]); setMapZoom(17); }}
-                      >
-                        <div className="candidate-rank" style={{ background: getCandidateColor(c.totalScore) }}>
-                          {c.rank}
-                        </div>
-                        <div className="candidate-info">
-                          <div className="candidate-name">{c.name || 'Unknown'}</div>
-                          <div className="candidate-type">{c.brand ? `${c.brand} · ` : ''}{c.type}</div>
-                          <div className="candidate-reason">{c.reason}</div>
-                        </div>
-                        <div className="candidate-score">
-                          <div className="score-value">{c.totalScore}</div>
-                          <div className="score-label" style={{ color: getCandidateColor(c.totalScore) }}>{getScoreLabel(c.totalScore)}</div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-
-              {(!siteSelectionResult?.candidates || siteSelectionResult.candidates.length === 0) && (
-                <div className="ssr-empty">No commercial POIs or suitable buildings found in this area. Try a larger zone.</div>
-              )}
-
-            </div>
-          )}
-        </div>
+            )}
+          </div>
         </div>
 
       </aside>
@@ -691,86 +691,96 @@ export default function App() {
             ))}
           </Pane>
 
-          {visiblePoints.map((p, i) => (
+          {/* Background candidate circles (non-interactive, default pane) */}
+          {siteSelectionResult?.candidates?.map((c, i) => (
             <CircleMarker
-              key={`vp-${p.name}`}
-              center={[p.latitude, p.longitude]}
-              radius={10}
-              className={explodingPoints.has(p.id || `${p.latitude}-${p.longitude}`) ? 'exploding' : ''}
-              pathOptions={{ fillColor: '#FFD100', fillOpacity: 0.9, color: '#FFFFFF', weight: 1.5 }}
-              bubblingMouseEvents={true}
-            >
-              <Popup>
-                <LockerPopup point={p} onDestroy={handleDestroy} />
-              </Popup>
-            </CircleMarker>
+              key={`ss-candidate-bg-${i}`}
+              center={[c.latitude, c.longitude]}
+              radius={20}
+              pathOptions={{
+                fillColor: getCandidateColor(c.totalScore),
+                fillOpacity: 0.2,
+                color: getCandidateColor(c.totalScore),
+                weight: 1,
+                dashArray: '4, 4'
+              }}
+              interactive={false}
+            />
           ))}
 
-
-
-          {siteSelectionResult?.competitorLockers?.map((c, i) => {
-            const pid = c.id || `${c.latitude}-${c.longitude}`;
-            return (
-              <React.Fragment key={`comp-${i}`}>
-                {dronePoints.has(pid) && (
-                  <Marker
-                    position={[c.latitude, c.longitude]}
-                    icon={L.divIcon({
-                      className: 'drone-container',
-                      html: `<div class="drone-marker ${droneDivePoints.has(pid) ? 'drone-diving' : ''}" style="transform: rotate(90deg);">
-                               <svg viewBox="0 0 24 24" fill="#FFD100">
-                                 <path d="M21,11h-8l-1-7l-1,7H3v2h8l1,7l1-7h8V11z"/>
-                               </svg>
-                             </div>`,
-                      iconSize: [30, 30],
-                      iconAnchor: [15, 15]
-                    })}
-                  />
-                )}
-                {firePoints.has(pid) && (
-                  <Marker
-                    position={[c.latitude, c.longitude]}
-                    icon={L.divIcon({
-                      className: 'fire-container',
-                      html: `<div class="fire-explosion"></div>`,
-                      iconSize: [40, 40],
-                      iconAnchor: [20, 20]
-                    })}
-                  />
-                )}
-                <CircleMarker
-                  center={[c.latitude, c.longitude]}
-                  radius={10}
-                  className={explodingPoints.has(pid) ? 'shaking-target' : ''}
-                  pathOptions={{
-                    fillColor: firePoints.has(pid) ? 'transparent' : '#FF5252',
-                    fillOpacity: 0.9,
-                    color: '#FFFFFF',
-                    weight: 1.5
-                  }}
-                  bubblingMouseEvents={true}
-                >
-                  <Popup>
-                    <LockerPopup point={c} onDestroy={handleDestroy} />
-                  </Popup>
-                </CircleMarker>
-              </React.Fragment>
-            );
-          })}
-          {siteSelectionResult?.candidates?.map((c, i) => (
-            <React.Fragment key={`ss-candidate-${i}`}>
+          {/* High-priority interactive markers pane */}
+          <Pane name="markerPaneTop" className="leaflet-marker-pane-top">
+            {/* Existing InPost Lockers */}
+            {visiblePoints.map((p, i) => (
               <CircleMarker
-                center={[c.latitude, c.longitude]}
-                radius={20}
-                pathOptions={{
-                  fillColor: getCandidateColor(c.totalScore),
-                  fillOpacity: 0.2,
-                  color: getCandidateColor(c.totalScore),
-                  weight: 1,
-                  dashArray: '4, 4'
-                }}
-              />
+                key={`vp-${p.name}`}
+                center={[p.latitude, p.longitude]}
+                radius={10}
+                className={explodingPoints.has(p.id || `${p.latitude}-${p.longitude}`) ? 'exploding' : ''}
+                pathOptions={{ fillColor: '#FFD100', fillOpacity: 0.9, color: '#FFFFFF', weight: 1.5 }}
+                bubblingMouseEvents={true}
+              >
+                <Popup>
+                  <LockerPopup point={p} onDestroy={handleDestroy} />
+                </Popup>
+              </CircleMarker>
+            ))}
+
+            {/* Competitor Lockers */}
+            {siteSelectionResult?.competitorLockers?.map((c, i) => {
+              const pid = c.id || `${c.latitude}-${c.longitude}`;
+              return (
+                <React.Fragment key={`comp-${i}`}>
+                  {dronePoints.has(pid) && (
+                    <Marker
+                      position={[c.latitude, c.longitude]}
+                      icon={L.divIcon({
+                        className: 'drone-container',
+                        html: `<div class="drone-marker ${droneDivePoints.has(pid) ? 'drone-diving' : ''}" style="transform: rotate(90deg);">
+                                 <svg viewBox="0 0 24 24" fill="#FFD100">
+                                   <path d="M21,11h-8l-1-7l-1,7H3v2h8l1,7l1-7h8V11z"/>
+                                 </svg>
+                               </div>`,
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 15]
+                      })}
+                    />
+                  )}
+                  {firePoints.has(pid) && (
+                    <Marker
+                      position={[c.latitude, c.longitude]}
+                      icon={L.divIcon({
+                        className: 'fire-container',
+                        html: `<div class="fire-explosion"></div>`,
+                        iconSize: [40, 40],
+                        iconAnchor: [20, 20]
+                      })}
+                    />
+                  )}
+                  <CircleMarker
+                    center={[c.latitude, c.longitude]}
+                    radius={10}
+                    className={explodingPoints.has(pid) ? 'shaking-target' : ''}
+                    pathOptions={{
+                      fillColor: firePoints.has(pid) ? 'transparent' : '#FF5252',
+                      fillOpacity: 0.9,
+                      color: '#FFFFFF',
+                      weight: 1.5
+                    }}
+                    bubblingMouseEvents={true}
+                  >
+                    <Popup>
+                      <LockerPopup point={c} onDestroy={handleDestroy} />
+                    </Popup>
+                  </CircleMarker>
+                </React.Fragment>
+              );
+            })}
+
+            {/* Candidate Centers */}
+            {siteSelectionResult?.candidates?.map((c, i) => (
               <CircleMarker
+                key={`ss-candidate-center-${i}`}
                 center={[c.latitude, c.longitude]}
                 radius={10}
                 pathOptions={{
@@ -800,8 +810,8 @@ export default function App() {
                   </div>
                 </Popup>
               </CircleMarker>
-            </React.Fragment>
-          ))}
+            ))}
+          </Pane>
         </MapContainer>
 
         {(loading || siteSelectionLoading) && (
