@@ -18,5 +18,4 @@ public class PointDto {
     private String city;
     private String street;
     private String locationDescription;
-    private int estimatedCapacity;
 }

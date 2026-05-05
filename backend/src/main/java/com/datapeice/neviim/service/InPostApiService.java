@@ -116,7 +116,6 @@ public class InPostApiService {
             type = typeNode.asText("unknown");
         }
 
-        int capacity = estimateCapacity(type, item);
 
         return Point.builder()
                 .name(name)
@@ -131,24 +130,9 @@ public class InPostApiService {
                 .street(address.path("street").asText(
                         item.path("address").path("street").asText("")))
                 .locationDescription(item.path("location_description").asText(""))
-                .estimatedCapacity(capacity)
                 .build();
     }
 
-    private int estimateCapacity(String type, JsonNode item) {
-        String physicalType = item.path("physical_type_mapped").asText(
-                item.path("physical_type_description").asText(""));
-
-        if (type.contains("parcel_locker_superpop")) return 120;
-        if (type.contains("parcel_locker")) {
-            if (physicalType.toLowerCase().contains("xl") || physicalType.contains("9")) return 80;
-            if (physicalType.toLowerCase().contains("l") || physicalType.contains("7")) return 60;
-            if (physicalType.toLowerCase().contains("m") || physicalType.contains("5")) return 40;
-            return 50;
-        }
-        if (type.contains("pop")) return 15;
-        return 30;
-    }
     // hiiiii :0
     public long getPointCount() {
         return pointRepository.count();

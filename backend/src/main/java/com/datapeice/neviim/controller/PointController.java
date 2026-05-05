@@ -88,7 +88,6 @@ public class PointController {
                 .city(p.getCity())
                 .street(p.getStreet())
                 .locationDescription(p.getLocationDescription())
-                .estimatedCapacity(p.getEstimatedCapacity())
                 .build();
     }
 }

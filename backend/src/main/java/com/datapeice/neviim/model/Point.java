@@ -38,5 +38,4 @@ public class Point {
     @Column(length = 512)
     private String locationDescription;
 
-    private int estimatedCapacity;
 }

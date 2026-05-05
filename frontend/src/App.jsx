@@ -27,7 +27,6 @@ function LockerPopup({ point, onDestroy }) {
     <div style={{ fontFamily: 'Inter', fontSize: '13px', width: '240px', display: 'flex', flexDirection: 'column' }}>
       <strong style={{ fontSize: '14px', color: '#333' }}>{point.name}</strong>
       <div>{point.city ? `${point.city} · ` : ''}{point.type}</div>
-      {point.estimatedCapacity > 0 && <div><strong>Cells:</strong> {point.estimatedCapacity}</div>}
 
       <div style={{ minHeight: '60px', marginTop: '6px' }}>
         {loading ? (
@@ -312,6 +311,7 @@ export default function App() {
   const [accessBonus, setAccessBonus] = useState(25);
   const [gfRadius, setGfRadius] = useState(5.0);
   const [compWeight, setCompWeight] = useState(0.5);
+  const [showDataSettings, setShowDataSettings] = useState(false);
 
   useEffect(() => {
     fetch(GEOJSON_URL)
@@ -412,8 +412,28 @@ export default function App() {
             </div>
             <h1>InPost Neviim</h1>
           </div>
-          <div className="logo-subtitle">The Parcel Prophet (Auto-Distributor)</div>
+          <div className="header-actions">
+            <button 
+              className={`icon-btn ${showDataSettings ? 'active' : ''}`}
+              onClick={() => setShowDataSettings(!showDataSettings)}
+              title="Data Settings"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </button>
+          </div>
         </div>
+        <div className="logo-subtitle">The Parcel Prophet (Auto-Distributor)</div>
+
+        <div className="sidebar-scroll-area">
+          {showDataSettings && (
+            <div className="sidebar-section settings-overlay">
+              <div className="section-title"><span className="dot" />Data Management</div>
+              <button className="btn btn-secondary" onClick={handleIngest} disabled={loading} id="btn-ingest">
+                {loading ? 'Updating...' : 'Update Data'}
+              </button>
+              <p className="setting-hint" style={{ marginTop: '8px' }}>Refreshes points from InPost API and OSM.</p>
+            </div>
+          )}
 
         <div className="stats-grid">
           <div className="stat-card yellow">
@@ -438,12 +458,6 @@ export default function App() {
           </div>
         </div>
 
-        <div className="sidebar-section">
-          <div className="section-title"><span className="dot" />Data Source</div>
-          <button className="btn btn-secondary" onClick={handleIngest} disabled={loading} id="btn-ingest">
-            {loading ? 'Ingesting...' : 'Ingest from InPost API'}
-          </button>
-        </div>
 
         <div className="sidebar-section">
           <div className="section-title"><span className="dot" />Site Selection Settings</div>
@@ -466,20 +480,21 @@ export default function App() {
             <input type="range" className="slider" min="1" max="20" step="1" value={gfRadius} onChange={(e) => setGfRadius(parseFloat(e.target.value))} />
           </div>
 
-          <div className="setting-item">
-            <div className="setting-label">
+          <div className="control-group">
+            <div className="control-label">
               <span>Competitor Weight</span>
               <span className="setting-value">{compWeight === 0 ? 'Low' : compWeight === 1 ? 'High' : 'Normal'}</span>
             </div>
             <input
               type="range"
+              className="slider"
               min="0"
               max="1"
               step="0.5"
               value={compWeight}
               onChange={(e) => setCompWeight(parseFloat(e.target.value))}
             />
-            <p className="setting-hint">How strongly to penalize proximity to DHL/DPD machines.</p>
+            <p className="setting-description">How strongly to penalize proximity to DHL/DPD machines.</p>
           </div>
         </div>
 
@@ -587,6 +602,39 @@ export default function App() {
               >
                 Analyze Another Area
               </button>
+            </div>
+          )}
+        </div>
+        </div>
+
+        <div className="sidebar-footer">
+          <button
+            className={`btn ${drawingMode ? 'btn-drawing' : 'btn-primary'}`}
+            onClick={() => {
+              setDrawingMode(!drawingMode);
+              if (!drawingMode) {
+                setSiteSelectionResult(null);
+                setSiteSelectionBbox(null);
+              }
+            }}
+            disabled={siteSelectionLoading}
+            id="btn-draw"
+          >
+            {drawingMode ? 'Click & drag on map to select area' : 'Select Area on Map'}
+          </button>
+
+          {drawingMode && (
+            <p className="site-selection-hint">
+              Click and drag on the map to draw a rectangle.
+            </p>
+          )}
+
+          {siteSelectionLoading && (
+            <div className="analysis-progress-container" style={{ margin: 0, marginTop: '8px' }}>
+              <div className="progress-bar-bg">
+                <div className="progress-bar-fill" style={{ width: `${analysisProgress}%` }}></div>
+              </div>
+              <span className="progress-text">Analyzing: {analysisProgress}%</span>
             </div>
           )}
         </div>
