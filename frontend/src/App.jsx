@@ -689,9 +689,7 @@ export default function App() {
                 pathOptions={{ fillColor: '#FFD100', fillOpacity: 1, color: 'transparent', weight: 0, interactive: false }}
               />
             ))}
-          </Pane>
-
-          {/* Background candidate circles (non-interactive, default pane) */}
+          <          {/* Background candidate circles (non-interactive, default overlayPane) */}
           {siteSelectionResult?.candidates?.map((c, i) => (
             <CircleMarker
               key={`ss-candidate-bg-${i}`}
@@ -708,110 +706,114 @@ export default function App() {
             />
           ))}
 
-          {/* High-priority interactive markers pane */}
-          <Pane name="markerPaneTop" className="leaflet-marker-pane-top">
-            {/* Existing InPost Lockers */}
-            {visiblePoints.map((p, i) => (
-              <CircleMarker
-                key={`vp-${p.name}`}
-                center={[p.latitude, p.longitude]}
-                radius={10}
-                className={explodingPoints.has(p.id || `${p.latitude}-${p.longitude}`) ? 'exploding' : ''}
-                pathOptions={{ fillColor: '#FFD100', fillOpacity: 0.9, color: '#FFFFFF', weight: 1.5 }}
-                bubblingMouseEvents={true}
-              >
-                <Popup>
-                  <LockerPopup point={p} onDestroy={handleDestroy} />
-                </Popup>
-              </CircleMarker>
-            ))}
+          {/* Active Interactive Markers (InPost, Competitors, Candidates) */}
+          
+          {/* Existing InPost Lockers */}
+          {visiblePoints.map((p, i) => (
+            <CircleMarker
+              key={`vp-${p.name}`}
+              center={[p.latitude, p.longitude]}
+              radius={10}
+              className={explodingPoints.has(p.id || `${p.latitude}-${p.longitude}`) ? 'exploding' : ''}
+              pathOptions={{ 
+                fillColor: '#FFD100', 
+                fillOpacity: 0.9, 
+                color: '#FFFFFF', 
+                weight: 1.5
+              }}
+              bubblingMouseEvents={true}
+            >
+              <Popup>
+                <LockerPopup point={p} onDestroy={handleDestroy} />
+              </Popup>
+            </CircleMarker>
+          ))}
 
-            {/* Competitor Lockers */}
-            {siteSelectionResult?.competitorLockers?.map((c, i) => {
-              const pid = c.id || `${c.latitude}-${c.longitude}`;
-              return (
-                <React.Fragment key={`comp-${i}`}>
-                  {dronePoints.has(pid) && (
-                    <Marker
-                      position={[c.latitude, c.longitude]}
-                      icon={L.divIcon({
-                        className: 'drone-container',
-                        html: `<div class="drone-marker ${droneDivePoints.has(pid) ? 'drone-diving' : ''}" style="transform: rotate(90deg);">
-                                 <svg viewBox="0 0 24 24" fill="#FFD100">
-                                   <path d="M21,11h-8l-1-7l-1,7H3v2h8l1,7l1-7h8V11z"/>
-                                 </svg>
-                               </div>`,
-                        iconSize: [30, 30],
-                        iconAnchor: [15, 15]
-                      })}
-                    />
-                  )}
-                  {firePoints.has(pid) && (
-                    <Marker
-                      position={[c.latitude, c.longitude]}
-                      icon={L.divIcon({
-                        className: 'fire-container',
-                        html: `<div class="fire-explosion"></div>`,
-                        iconSize: [40, 40],
-                        iconAnchor: [20, 20]
-                      })}
-                    />
-                  )}
-                  <CircleMarker
-                    center={[c.latitude, c.longitude]}
-                    radius={10}
-                    className={explodingPoints.has(pid) ? 'shaking-target' : ''}
-                    pathOptions={{
-                      fillColor: firePoints.has(pid) ? 'transparent' : '#FF5252',
-                      fillOpacity: 0.9,
-                      color: '#FFFFFF',
-                      weight: 1.5
-                    }}
-                    bubblingMouseEvents={true}
-                  >
-                    <Popup>
-                      <LockerPopup point={c} onDestroy={handleDestroy} />
-                    </Popup>
-                  </CircleMarker>
-                </React.Fragment>
-              );
-            })}
+          {/* Competitor Lockers */}
+          {siteSelectionResult?.competitorLockers?.map((c, i) => {
+            const pid = c.id || `${c.latitude}-${c.longitude}`;
+            return (
+              <React.Fragment key={`comp-${i}`}>
+                <CircleMarker
+                  center={[c.latitude, c.longitude]}
+                  radius={10}
+                  className={explodingPoints.has(pid) ? 'shaking-target' : ''}
+                  pathOptions={{
+                    fillColor: firePoints.has(pid) ? 'transparent' : '#FF5252',
+                    fillOpacity: 0.9,
+                    color: '#FFFFFF',
+                    weight: 1.5
+                  }}
+                  bubblingMouseEvents={true}
+                >
+                  <Popup>
+                    <LockerPopup point={c} onDestroy={handleDestroy} />
+                  </Popup>
+                </CircleMarker>
+                {dronePoints.has(pid) && (
+                  <Marker
+                    position={[c.latitude, c.longitude]}
+                    icon={L.divIcon({
+                      className: 'drone-container',
+                      html: `<div class="drone-marker ${droneDivePoints.has(pid) ? 'drone-diving' : ''}" style="transform: rotate(90deg);">
+                               <svg viewBox="0 0 24 24" fill="#FFD100">
+                                 <path d="M21,11h-8l-1-7l-1,7H3v2h8l1,7l1-7h8V11z"/>
+                               </svg>
+                             </div>`,
+                      iconSize: [30, 30],
+                      iconAnchor: [15, 15]
+                    })}
+                  />
+                )}
+                {firePoints.has(pid) && (
+                  <Marker
+                    position={[c.latitude, c.longitude]}
+                    icon={L.divIcon({
+                      className: 'fire-container',
+                      html: `<div class="fire-explosion"></div>`,
+                      iconSize: [40, 40],
+                      iconAnchor: [20, 20]
+                    })}
+                  />
+                )}
+              </React.Fragment>
+            );
+          })}
 
-            {/* Candidate Centers */}
-            {siteSelectionResult?.candidates?.map((c, i) => (
-              <CircleMarker
-                key={`ss-candidate-center-${i}`}
-                center={[c.latitude, c.longitude]}
-                radius={10}
-                pathOptions={{
-                  fillColor: getCandidateColor(c.totalScore),
-                  fillOpacity: 1,
-                  color: '#FFFFFF',
-                  weight: 2
-                }}
-              >
-                <Popup>
-                  <div style={{ fontFamily: 'Inter', fontSize: '13px', width: '220px' }}>
-                    <strong style={{ fontSize: '14px' }}>#{c.rank} — {c.name}</strong><br />
-                    <span style={{ color: '#666' }}>{c.type}</span><br />
-                    {c.address && <div style={{ marginTop: '4px', fontWeight: 'bold', color: '#333' }}>{c.address}</div>}
-                    <div style={{ marginTop: '8px' }}>
-                      <strong>Score: {c.totalScore}</strong> ({getScoreLabel(c.totalScore)})
-                    </div><br />
-                    <span style={{ fontSize: '10px', color: '#aaa' }}>
-                      Distance: {c.distanceScore} · Type: {c.typeScore} · Brand: {c.brandScore} · Access: {c.accessScore}
-                      {c.greenfieldBonus > 0 ? ` · +${c.greenfieldBonus} GF` : ''}
-                    </span><br />
-                    {c.distanceToNearestLockerKm >= 0
-                      ? <span>Nearest locker: {(c.distanceToNearestLockerKm * 1000).toFixed(0)}m</span>
-                      : <span style={{ color: '#00E676' }}>No lockers nearby — virgin territory</span>
-                    }<br />
-                    {c.openingHours && <span>Hours: {c.openingHours}</span>}
-                  </div>
-                </Popup>
-              </CircleMarker>
-            ))}
-          </Pane>
+          {/* Candidate Center Points */}
+          {siteSelectionResult?.candidates?.map((c, i) => (
+            <CircleMarker
+              key={`ss-candidate-center-${i}`}
+              center={[c.latitude, c.longitude]}
+              radius={10}
+              pathOptions={{
+                fillColor: getCandidateColor(c.totalScore),
+                fillOpacity: 1,
+                color: '#FFFFFF',
+                weight: 2
+              }}
+            >
+              <Popup>
+                <div style={{ fontFamily: 'Inter', fontSize: '13px', width: '220px' }}>
+                  <strong style={{ fontSize: '14px' }}>#{c.rank} — {c.name}</strong><br />
+                  <span style={{ color: '#666' }}>{c.type}</span><br />
+                  {c.address && <div style={{ marginTop: '4px', fontWeight: 'bold', color: '#333' }}>{c.address}</div>}
+                  <div style={{ marginTop: '8px' }}>
+                    <strong>Score: {c.totalScore}</strong> ({getScoreLabel(c.totalScore)})
+                  </div><br />
+                  <span style={{ fontSize: '10px', color: '#aaa' }}>
+                    Distance: {c.distanceScore} · Type: {c.typeScore} · Brand: {c.brandScore} · Access: {c.accessScore}
+                    {c.greenfieldBonus > 0 ? ` · +${c.greenfieldBonus} GF` : ''}
+                  </span><br />
+                  {c.distanceToNearestLockerKm >= 0
+                    ? <span>Nearest locker: {(c.distanceToNearestLockerKm * 1000).toFixed(0)}m</span>
+                    : <span style={{ color: '#00E676' }}>No lockers nearby — virgin territory</span>
+                  }<br />
+                  {c.openingHours && <span>Hours: {c.openingHours}</span>}
+                </div>
+              </Popup>
+            </CircleMarker>
+          ))}
         </MapContainer>
 
         {(loading || siteSelectionLoading) && (
