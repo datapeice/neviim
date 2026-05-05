@@ -311,7 +311,6 @@ export default function App() {
   const [accessBonus, setAccessBonus] = useState(25);
   const [gfRadius, setGfRadius] = useState(5.0);
   const [compWeight, setCompWeight] = useState(0.5);
-  const [showDataSettings, setShowDataSettings] = useState(false);
 
   useEffect(() => {
     fetch(GEOJSON_URL)
@@ -412,19 +411,10 @@ export default function App() {
             </div>
             <h1>InPost Neviim</h1>
           </div>
+          <div className="logo-subtitle">The Parcel Prophet (Auto-Distributor)</div>
         </div>
-        <div className="logo-subtitle">The Parcel Prophet (Auto-Distributor)</div>
 
         <div className="sidebar-scroll-area">
-          {showDataSettings && (
-            <div className="sidebar-section settings-overlay">
-              <div className="section-title"><span className="dot" />Data Management</div>
-              <button className="btn btn-secondary" onClick={handleIngest} disabled={loading} id="btn-ingest">
-                {loading ? 'Updating...' : 'Update Data'}
-              </button>
-              <p className="setting-hint" style={{ marginTop: '8px' }}>Refreshes points from InPost API and OSM.</p>
-            </div>
-          )}
 
         <div className="stats-grid">
           <div className="stat-card yellow">
@@ -490,7 +480,6 @@ export default function App() {
         </div>
 
         <div className="sidebar-section">
-          <div className="section-title"><span className="dot" />Site Selection</div>
 
           {siteSelectionResult && (
             <div className="site-selection-results">
@@ -585,10 +574,12 @@ export default function App() {
           </button>
 
           <button 
-            className={`btn btn-secondary ${showDataSettings ? 'active' : ''}`}
-            onClick={() => setShowDataSettings(!showDataSettings)}
+            className="btn btn-secondary"
+            onClick={handleIngest}
+            disabled={loading}
+            id="btn-ingest"
           >
-            {showDataSettings ? 'Close Settings' : '⚙️ Settings & Data'}
+            {loading ? 'Fetching Data...' : 'Fetch Data ~10min'}
           </button>
 
           {drawingMode && (
