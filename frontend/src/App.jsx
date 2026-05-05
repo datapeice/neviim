@@ -689,7 +689,9 @@ export default function App() {
                 pathOptions={{ fillColor: '#FFD100', fillOpacity: 1, color: 'transparent', weight: 0, interactive: false }}
               />
             ))}
-          <          {/* Background candidate circles (non-interactive, default overlayPane) */}
+          </Pane>
+
+          {/* Background candidate circles (non-interactive, default overlayPane) */}
           {siteSelectionResult?.candidates?.map((c, i) => (
             <CircleMarker
               key={`ss-candidate-bg-${i}`}
