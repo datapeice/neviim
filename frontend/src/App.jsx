@@ -287,7 +287,7 @@ export default function App() {
 
   useEffect(() => {
     const client = new Client({
-      webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+      webSocketFactory: () => new SockJS('/ws'),
       onConnect: () => {
         client.subscribe('/topic/analysis-progress', (message) => {
           const data = JSON.parse(message.body);
@@ -608,6 +608,11 @@ export default function App() {
           <TileLayer
             attribution='&copy; Esri'
             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+          />
+          <TileLayer
+            attribution='&copy; Esri'
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
+            pane="overlayPane"
           />
           {geoData && (
             <GeoJSON data={geoData} style={getCountryStyle} />
