@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/neviim
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/neviim}
     driver-class-name: org.postgresql.Driver
-    username: neviim
-    password: neviim
+    username: ${DB_USERNAME:neviim}
+    password: ${DB_PASSWORD:neviim}
   h2:
     console:
       enabled: false
