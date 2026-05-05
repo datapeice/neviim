@@ -22,8 +22,6 @@ services:
       dockerfile: Dockerfile
     container_name: inpost-neviim-backend
     restart: unless-stopped
-    ports:
-      - "8888:8080"
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_URL: ${DB_URL}
